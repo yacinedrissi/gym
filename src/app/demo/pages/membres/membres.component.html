@@ -1,0 +1,282 @@
+<div class="container">
+        <button  type="button" data-toggle="modal" data-target="#addMembre" class="btn btn-success float-right"><i
+			class="feather icon-plus"></i>Add </button>
+			<div class="row">
+                    <div class="col-md-3">
+                            <button [routerLink]="['/detail']" routerLinkActive="router-link-active"  title="Back " class="btn btn-rounded btn-icon btn-outline-info"><i class="feather icon-arrow-left"></i> </button>
+                        </div>
+                <div class="col-md-9">
+						<label style="margin-left: 40%;;color: black !important">Le Nombre des Members : {{membreList.length}}</label>
+
+                </div>
+                
+            </div>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+        <thead>
+            <tr>
+                <th class="text-center"> Image</th>
+                <th class="text-center"> First Name</th>
+                <th class="text-center"> Last Name</th>
+                <th class="text-center"> Cin</th>
+                <th class="text-center"> Abonnement</th>
+                <th class="text-center"> Payé le</th>
+                <th class="text-center"> Date d'éxperation</th>
+                <th class="text-center">OPTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let membre of membreList ;let i=index">
+                <td class="text-center"> <img style="width: 100px;height: 100px;" src="../../../../assets/images/user.jpg" alt=""> </td>
+                <td class="text-center">{{ membre.firstname }}</td>
+                <td class="text-center">{{ membre.lastname }}</td>
+                <td class="text-center">{{ membre.cin }}</td>
+                <td class="text-center"> <span class="badge badge-info">{{ membre.subscription }}</span></td>
+                <td class="text-center">{{ membre.last_paiement_date }}</td>
+                <td class="text-center">{{ membre.last_expire_date }}</td>
+                <td class="text-center">
+                    <!-- <button  type="button" data-toggle="modal" (click)='editItemSelected(membre,i)'
+                        class="btn btn-icon btn-rounded btn-warning"><i class="feather icon-edit-2"></i></button>
+         -->
+                    <button  type="button" data-toggle="modal" (click)='viewMember(membre)'
+                        class="btn btn-icon btn-rounded btn-warning"><i class="feather icon-eye"></i></button>
+        
+     
+                    <button  type="button" class="btn btn-icon btn-rounded btn-danger"
+                        ><i class="feather icon-trash"></i></button>
+                    
+                    
+                </td>
+            </tr>
+        </tbody>
+        </table>
+</div>
+
+
+
+<div class="modal fade " id="addMembre" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+            <form [formGroup]="membreForm" (ngSubmit)="addMembre()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Membre</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>DÉTAILS PERSONNELS</legend>
+                            <div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+                                <div class="col-sm-10" >
+                                    <input type="text"  [(ngModel)]="membre.firstname" formControlName="firstname" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="First Name ...">
+                                        <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                                <div *ngIf="f.firstname.errors.required">firstname is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="membre.lastname" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Last Name ...">
+                                        <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                                                <div *ngIf="f.lastname.errors.required">lastname is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="membre.cin" class="form-control form-control-sm" formControlName="cin" [ngClass]="{ 'is-invalid': submitted && f.cin.errors }"
+                                        id="colFormLabelSm" placeholder="Cin ...">
+                                        <div *ngIf="submitted && f.cin.errors" class="invalid-feedback">
+                                                <div *ngIf="f.cin.errors.required">cin is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="membre.description" class="form-control form-control-sm" formControlName="description" [ngClass]="{ 'is-invalid': submitted && f.description.errors }"
+                                        id="colFormLabelSm" placeholder="description ...">
+                                        <div *ngIf="submitted && f.description.errors" class="invalid-feedback">
+                                                <div *ngIf="f.description.errors.required">description is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="membre.city" class="form-control form-control-sm" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }"
+                                        id="colFormLabelSm" placeholder="City ...">
+                                        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                                                <div *ngIf="f.city.errors.required">city is required</div>
+    
+                                            </div> 
+                                </div>
+							</div>
+							<div class="form-group row">
+									<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+										</label>
+									<div class="col-sm-10">
+										<input type="email" [(ngModel)]="membre.adresse" class="form-control form-control-sm" formControlName="adresse" [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"
+                                            id="colFormLabelSm" placeholder="Adress ...">
+                                            <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.adresse.errors.required">adresse is required</div>
+        
+                                                </div> 
+									</div>
+								</div>
+								<div class="form-group row">
+										<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+											</label>
+									<div class="col-sm-10">
+										<input type="email" [(ngModel)]="membre.phone" class="form-control form-control-sm" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                                            id="colFormLabelSm" placeholder="Phone Number ...">
+                                            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.phone.errors.required">phone is required</div>
+        
+                                                </div> 
+									</div>
+								</div>
+								<div class="form-group row">
+										<label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+											</label>
+									<div class="col-sm-10">
+										<input type="email" [(ngModel)]="membre.email" class="form-control form-control-sm" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                                            id="colFormLabelSm" placeholder="Email ...">
+                                            <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.email.errors.required">email is required</div>
+        
+                                                </div> 
+									</div>
+								</div>
+                                <div class="form-group row">
+                                        <label class="col-sm-1"></label>
+    
+    
+                                        <div class="file-upload col-sm-10">
+                                            <div class="file-select">
+                                                <span style="color:red;" *ngIf="message">{{message}}</span>
+                                                <div class="file-select-button" id="fileName">Choose File</div>
+                                                <div class="file-select-name" id="noFile">No file chosen...</div>
+                                                <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                                    name="chooseFile" id="chooseFile">
+                                            </div>
+                                        </div>
+    
+                                        <img [src]="imgURL" height="100"
+                                            style="margin-left: 50px;margin-top: 20px;width: 80% !important" *ngIf="imgURL">
+                                    </div>
+                               
+                            
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            
+                           <legend>TYPE ABONNEMENT</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+								</label>
+								
+                                <div class="col-sm-10">
+										choisir le Type abonnement <br>
+                                   <select class="form-control" formControlName="id_Subscription" [ngClass]="{ 'is-invalid': submitted && f.id_Subscription.errors }" [(ngModel)]="membre.id_Subscription">
+										
+									<option *ngFor="let sub of subscriptionList" value="{{sub.id}}"  >
+									Type : 	{{sub.name}} | prix :   {{sub.price}} DHs
+									</option>
+                                   </select>
+                                   <div *ngIf="submitted && f.id_Subscription.errors" class="invalid-feedback">
+                                        <div *ngIf="f.id_Subscription.errors.required">Subscription is required</div>
+
+                                    </div> 
+                                </div>
+							</div>
+							<!-- <div class="form-group row">
+									 <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+									</label> 
+									<div class="col-sm-10">
+										<input type="number" [(ngModel)]="membre" class="form-control form-control-sm" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                                            id="colFormLabelSm" placeholder="Prix Payé Par le client ...">
+                                            <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.firstname.errors.required">firstname is required</div>
+        
+                                                </div> 
+									</div>
+								</div> -->
+                           
+                        </fieldset>
+                       <!--  <fieldset>
+                            
+                           <legend>REMISE & DROIT D'INSCRIPTION</legend>
+                          
+							<div class="form-group row">
+									 <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+									</label> 
+									<div class="col-sm-10">
+										<input type="number"  class="form-control form-control-sm" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"
+                                            id="colFormLabelSm" placeholder="Remise ...">
+                                            <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.firstname.errors.required">firstname is required</div>
+        
+                                                </div> 
+									</div>
+								</div>
+							<div class="form-group row">
+									 <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+									</label> 
+									<div class="col-sm-10">
+										<input type="number"  formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" class="form-control form-control-sm"
+                                            id="colFormLabelSm" placeholder="Dorit d'inscription ...">
+                                            <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.firstname.errors.required">firstname is required</div>
+        
+                                                </div> 
+									</div>
+								</div>
+                           
+                        </fieldset> -->
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="addMembre()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+
+
+        </div>
+
+</form>
+
+
+
+
+    </div>
+</div>
+
+
+
+
+
+

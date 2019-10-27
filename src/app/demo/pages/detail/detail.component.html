@@ -1,0 +1,173 @@
+<div class="row">
+
+    <div class="col-md-3">
+        <button [routerLink]="['/gym']" routerLinkActive="router-link-active" title="Back To Gym"
+            class="btn btn-rounded btn-icon btn-outline-info">
+            <i class="feather icon-arrow-left"></i>
+
+        </button>
+        <div class="card card-user">
+
+
+            <div class="image">
+                <img src="../../../../assets/images/cover.jpg" alt="...">
+            </div>
+            <div class="card-body">
+                <div class="author">
+                    <a>
+                        <img class="avatar border-gray"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjfAf8ZwkNCsrvngzqV25PPoC58-OWqWRrO00qYGd0YU5ahNU4oQ"
+                            alt="...">
+                        <h5 class="title">{{gym.name}}</h5>
+
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-md-9">
+        <br> <br>
+        <div class="card card-user">
+
+            <div class="card-body">
+                <ngb-tabset>
+                    <ngb-tab title="HOME">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="card zoom" *ngIf="!this.loginServ.roleMatch(['COACH'])" [routerLink]="['/subscription']"
+                                        routerLinkActive="router-link-active" style="cursor: pointer;">
+                                        <img style="height: 80px !important;"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrT7tsgbFttBX86_Ibm0x7p6FpawHGrIQOZ-55-PlAvnGx0Lkv"
+                                            class="card-img-top" alt="..."> <br>
+                                        <div>
+                                            <h5 class="card-title text-center">Manage Subscriptions</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="card zoom" *ngIf="!this.loginServ.roleMatch(['COACH'])" [routerLink]="['/user']" routerLinkActive="router-link-active"
+                                        style="cursor: pointer;">
+                                        <img style="height: 80px !important;"
+                                            src="data:image/png;base64,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"
+                                            class="card-img-top" alt="..."> <br>
+                                        <div>
+                                            <h5 class="card-title text-center">Manage Coach</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card zoom" [routerLink]="['/membres']" routerLinkActive="router-link-active"
+                                        style="cursor: pointer;">
+                                        <img style="height: 80px !important;"
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRpPpc_WQdZrxqxx-FWpgGLmpv8_XSAMGNZncje1oIE-8seBpOQyA"
+                                            class="card-img-top" alt="..."> <br>
+                                        <div>
+                                            <h5 class="card-title text-center">Manage Membres</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--  <div class="col-md-6">
+        
+                                <div class="card" [routerLink]="['/membres']" routerLinkActive="router-link-active" style="    height: 40%;">
+                                    <img style="height: 80px !important;" src="../../../../assets/images/user.jpg"
+                                        class="card-img-top" alt="...">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Card title</h5>
+                                    </div>
+                                </div>
+                            </div> -->
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                    <ngb-tab title="UPDATE GYM" *ngIf="!this.loginServ.roleMatch(['COACH'])">
+                        <ng-template ngbTabContent>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" [(ngModel)]="gym.name"
+                                                class="form-control form-control-sm" id="colFormLabelSm"
+                                                placeholder="Gym Name ...">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" [(ngModel)]="gym.discription"
+                                                class="form-control form-control-sm" id="colFormLabelSm"
+                                                placeholder="Description ...">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" [(ngModel)]="gym.address"
+                                                class="form-control form-control-sm" id="colFormLabelSm"
+                                                placeholder="Address ...">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" [(ngModel)]="gym.city"
+                                                class="form-control form-control-sm" id="colFormLabelSm"
+                                                placeholder="City ...">
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                                        <div class="col-sm-10">
+                                            <input type="text" [(ngModel)]="gym.phone"
+                                                class="form-control form-control-sm" id="colFormLabelSm"
+                                                placeholder="Phone ...">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                            <label class="col-sm-1"></label>
+                        
+
+                                        <div class="file-upload col-sm-10">
+                                            <div class="file-select">
+                                                <span style="color:red;" *ngIf="message">{{message}}</span>
+                                                <div class="file-select-button" id="fileName">Choose File</div>
+                                                <div class="file-select-name" id="noFile">No file chosen...</div>
+                                                <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                                    name="chooseFile" id="chooseFile">
+                                            </div>
+                                        </div>
+
+                                        <img [src]="imgURL" height="100"
+                                            style="margin-left: 50px;margin-top: 20px;width: 80% !important"
+                                            *ngIf="imgURL">
+                                    </div>
+
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="update ml-auto mr-auto">
+                                    <button type="button" (click)="updateGym()"
+                                        class="btn btn-rounded btn-success">Update</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                    </ngb-tab>
+                </ngb-tabset>
+
+            </div>
+        </div>
+    </div>
+</div>

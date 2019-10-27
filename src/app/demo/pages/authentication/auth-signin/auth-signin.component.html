@@ -1,0 +1,61 @@
+
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="auth-bg">
+      <span class="r"></span>
+      <span class="r s"></span>
+      <span class="r s"></span>
+      <span class="r"></span>
+    </div>
+    <div class="card">
+      <div class="card-body text-center">
+        <div class="mb-4">
+          <i class="feather icon-unlock auth-icon"></i>
+        </div>
+        <div class="alert alert-warning" *ngIf="error == 2" role="alert">
+            <h4>you are not connected check connection please</h4>
+             
+            </div>
+        <h3 class="mb-4">Login</h3>
+        <div class="alert alert-danger" *ngIf="error == 1">
+          Invalid username or password
+        </div>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="input-group mb-3">
+          <input type="email"  formControlName="email"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Email" [(ngModel)]="user.email">
+          <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+              <div *ngIf="f.email.errors.required">Email is required</div>
+              <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+          </div>
+        </div>
+        <div class="input-group mb-4">
+            
+          <input [type]="show ? 'text' : 'password'" formControlName="password" placeholder="Password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }"  [(ngModel)]="user.password">
+          <div class="input-group-prepend">
+              <span class="input-group-text">
+                  <i [ngClass]="(icon==false)?'feather icon-eye':'feather icon-eye-off'"   (click)="togglePassword()"></i>
+              </span>
+            </div>
+            <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                <div *ngIf="f.password.errors.required">Password is required</div>
+                <div *ngIf="f.password.errors.minlength">Password must be at least 6 characters</div>
+            </div>
+          
+        </div>
+       <!--  <div class="form-group">
+            <label>Confirm Password</label>
+            <input type="password" formControlName="confirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirmPassword.errors }" />
+            <div *ngIf="submitted && f.confirmPassword.errors" class="invalid-feedback">
+                <div *ngIf="f.confirmPassword.errors.required">Confirm Password is required</div>
+                <div *ngIf="f.confirmPassword.errors.mustMatch">Passwords must match</div>
+            </div>
+        </div> -->
+        <button  class="btn btn-primary mb-4" >Login</button>
+        <p class="mb-2 text-muted">Forgot password? <a [routerLink]="['/auth/reset-password']">Reset</a></p>
+        <p class="mb-0 text-muted">Don’t have an account? <a [routerLink]="['/auth/signup']">Sign up</a></p>
+      </form>
+      
+      </div>
+    </div>
+  </div>
+</div>

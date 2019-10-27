@@ -1,0 +1,31 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/ngx-toastr/toastr.css";
+@import "scss/variables";
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+/* fonts-icon */
+@import "scss/fonts/fontawesome/scss/fontawesome";
+@import "scss/fonts/feather/iconfont";
+
+@import url("scss/fonts/datta/datta-icons.css"); /** custom font icons - datta **/
+@import "scss/general";
+@import "scss/generic";
+@import "scss/mixins/function";
+
+/* important element */
+@import "scss/menu/menu-lite";
+@import "scss/widget/widget";
+
+/* basic elements */
+@import "scss/theme-elements/theme-elements";
+
+/* advance-other elements */
+@import "scss/other/other";
+
+/* third party modules style*/
+@import "scss/plugins/plugins";
+
+@import "scss/layout/layout";
+@import "scss/custom";
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

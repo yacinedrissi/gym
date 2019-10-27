@@ -1,0 +1,185 @@
+<div class="container">
+        
+
+        <button type="button" data-toggle="modal" data-target="#addSubscription" class="btn btn-success float-right"><i
+            class="feather icon-plus"></i>Add </button>
+
+            <div class="row">
+                    <div class="col-md-3">
+                            <button [routerLink]="['/detail']" routerLinkActive="router-link-active"  title="Back " class="btn btn-rounded btn-icon btn-outline-info"><i class="feather icon-arrow-left"></i> </button>
+                        </div>
+                <div class="col-md-9">
+                        <label class="text-center" style="color: black !important">Le Nombre des Abonnements : {{subscriptionList.length}}</label>
+
+                </div>
+                
+            </div>
+
+        <table  datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+          <thead>
+                <tr>
+              <th class="text-center">#</th>
+              <th class="text-center">subscription</th>
+              <th class="text-center">price</th>
+              <th class="text-center">Options</th>
+                </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let sub of subscriptionList;let j=index">
+                  <td class="text-center">{{j + 1}}</td>
+                  <td class="text-center">{{sub.name}}</td>
+                  <td class="text-center">{{sub.price}} DH</td>
+                  <td class="text-center">
+                        <button  (click)="editItemSelected(sub,j)" type="button" data-toggle="modal" 
+                        class="btn btn-icon btn-rounded btn-warning"><i class="feather icon-edit-2"></i></button>
+        
+        
+                    <button  (click)="deleteItemSelected(sub,j)" type="button" class="btn btn-icon btn-rounded btn-danger"
+                        ><i class="feather icon-trash"></i></button>
+                    
+                  </td>
+              </tr>
+          </tbody>
+        </table>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="editSubscription" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group row">
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">peroide </label>
+                            <div class="col-sm-9">
+                            <select class="form-control" [(ngModel)]="subscriptionSelected.name">
+                                    <option  value="1 Mois" >1 Mois</option>
+                                    <option  value="2 Mois">2 Mois</option>
+                                    <option  value="3 Mois">3 Mois</option>
+                                    <option  value="4 Mois">4 Mois</option>
+                                    <option  value="5 Mois" >5 Mois</option>
+                                    <option value="6 Mois" >6 Mois</option>
+                                    <option value="7 Mois">7 Mois</option>
+                                    <option value="8 Mois">8 Mois</option>
+                                    <option value="9 Mois" >9 Mois</option>
+                                    <option value="10 Mois" >10 Mois</option>
+                                    <option value="11 Mois" >11 Mois</option>
+                                    <option value="12 Mois">12 Mois</option>
+                                </select>
+                            </div>
+                    </div>
+                   
+                <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Price </label>
+                    <div class="col-sm-9">
+                        <input type="number" [(ngModel)]="subscriptionSelected.price" class="form-control form-control-sm"
+                            id="colFormLabelSm" placeholder="Price ...">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="editSubscription()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addSubscription" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                    <div class="form-group row">
+                            <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">peroide </label>
+                            <div class="col-sm-9">
+                            <select class="form-control" [(ngModel)]="subscription.name">
+                                    <option  value="1 Mois" >1 Mois</option>
+                                    <option  value="2 Mois">2 Mois</option>
+                                    <option  value="3 Mois">3 Mois</option>
+                                    <option  value="4 Mois">4 Mois</option>
+                                    <option  value="5 Mois" >5 Mois</option>
+                                    <option value="6 Mois" >6 Mois</option>
+                                    <option value="7 Mois">7 Mois</option>
+                                    <option value="8 Mois">8 Mois</option>
+                                    <option value="9 Mois" >9 Mois</option>
+                                    <option value="10 Mois" >10 Mois</option>
+                                    <option value="11 Mois" >11 Mois</option>
+                                    <option value="12 Mois">12 Mois</option>
+                                </select>
+                            </div>
+                    </div>
+                   
+                <div class="form-group row">
+                    <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Price </label>
+                    <div class="col-sm-9">
+                        <input type="number" [(ngModel)]="subscription.price" class="form-control form-control-sm"
+                            id="colFormLabelSm" placeholder="Price ...">
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="addSubscription()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="deleteSubscription" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title custom_align" id="Heading">Supprimer cette Subscription</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body">
+    
+                    <div class="alert alert-danger text-center"><span class="glyphicon glyphicon-warning-sign"></span>
+                        Êtes-vous sûr de vouloir supprimer cette Subscription ?
+    
+                    </div>
+    
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-danger" (click)='deleteSubscription()'><span
+                            class="glyphicon glyphicon-ok-sign"></span>Oui</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                            class="glyphicon glyphicon-remove"></span> Non</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>

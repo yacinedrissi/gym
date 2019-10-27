@@ -1,0 +1,404 @@
+<!-- <div class="container">
+        <button  type="button" data-toggle="modal" data-target="#addGym" class="btn btn-success float-right"><i
+            class="feather icon-plus"></i>Add </button>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
+        <thead>
+            <tr>
+                <th class="text-center"> name</th>
+                <th class="text-center"> Description</th>
+                <th class="text-center"> Address</th>
+                <th class="text-center"> City</th>
+                <th class="text-center"> Phone</th>
+                <th class="text-center">OPTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let gym of gymList ;let i=index">
+                <td class="text-center">{{ gym.name }}</td>
+                <td class="text-center">{{ gym.discription }}</td>
+                <td class="text-center">{{ gym.adress }}</td>
+                <td class="text-center">{{ gym.city }}</td>
+                <td class="text-center">{{ gym.phone }}</td>
+                <td class="text-center">
+                    <button  type="button" data-toggle="modal" (click)='editItemSelected(gym,i)'
+                        class="btn btn-icon btn-rounded btn-warning"><i class="feather icon-edit-2"></i></button>
+        
+       
+              
+                    
+                        <button  type="button" class="btn btn-icon btn-rounded btn-success" title="Manage Subscription"
+                        (click)='goSub(gym)'><i class="feather icon-zap"></i></button>
+        
+                        <button  type="button" class="btn btn-icon btn-rounded btn-secondary" title="Manage Members"
+                        (click)='goMembre(gym)'><i class="feather icon-user-plus"></i></button>
+        
+                        <button  type="button" class="btn btn-icon btn-rounded btn-success" title="Manage Coatch"
+                        (click)='goCoatch(gym)'><i class="feather icon-user"></i></button>
+        
+                </td>
+            </tr>
+        </tbody>
+        </table>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade" id="addGym" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Gym</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Gym Name
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gym.name" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Gym Name ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Description
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gym.discription" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Description ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Address
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gym.address" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Address ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">City
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gym.city" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="City ...">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Phone
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gym.phone" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Phone ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3">Image</label>
+                                <div class="input-group  col-sm-9">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                  </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="addGym()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="editGym" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Gym</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Gym Name
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gymSelected.name" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Gym Name ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Description
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gymSelected.discription" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Description ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Address
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gymSelected.address" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Address ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">City
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gymSelected.city" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="City ...">
+                                </div>
+                            </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-3 col-form-label col-form-label-sm">Phone
+                                </label>
+                                <div class="col-sm-9">
+                                    <input type="text" [(ngModel)]="gymSelected.phone" class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Phone ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-sm-3">Image</label>
+                                <div class="input-group  col-sm-9">
+                                    <div class="input-group-prepend">
+                                      <span class="input-group-text">Upload</span>
+                                    </div>
+                                    <div class="custom-file">
+                                      <input type="file" class="custom-file-input" id="inputGroupFile01">
+                                      <label class="custom-file-label" for="inputGroupFile01">Choose file</label>
+                                    </div>
+                                  </div>
+                            </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="updateGym()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+ -->
+
+
+<button type="button" *ngIf="!this.loginServ.roleMatch(['COACH'])" data-toggle="modal" data-target="#addGym" class="btn btn-success float-right"><i
+        class="feather icon-plus"></i>Create New Gym </button> <br> <br> <br>
+
+<div class="row">
+
+    <div class="col-md-6" *ngFor="let gym of gymList ;let i=index">
+        <app-card [hidHeader]="true" (click)='editItemSelected(gym)' title="Manage Gym"
+            style="cursor: pointer !important">
+
+            <h3 class="mb-4 text-center">{{ gym.name }}</h3>
+
+            <img class="zoom" style="width: 100% !important;height: 150px !important;"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQjfAf8ZwkNCsrvngzqV25PPoC58-OWqWRrO00qYGd0YU5ahNU4oQ"
+                alt="">
+            <h4 class="text-center">{{ gym.discription }}</h4>
+
+        </app-card>
+    </div>
+</div>
+
+
+
+
+<!--  <h3>Angular 7 Image Preview before Upload:</h3>
+<span style="color:red;" *ngIf="message">{{message}}</span>
+<input #file type="file" accept='image/*' (change)="preview(file.files)" />
+<img [src]="imgURL" height="200" *ngIf="imgURL">
+
+
+ -->
+
+
+
+
+
+
+
+
+<div class="modal fade" id="addGym" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <form [formGroup]="gymForm" (ngSubmit)="addGym()">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Gym</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            
+            <div class="modal-body">
+
+                    
+                <div class="row">
+                       
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Info</legend>
+                               
+                                <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text" formControlName="name" [ngClass]="{ 'is-invalid': submitted && f.name.errors }"    class="form-control form-control-sm" placeholder="Gym Name ..." >
+                                        <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+                                            <div *ngIf="f.name.errors.required">name is required</div>
+
+                                        </div> 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  formControlName="discription" [ngClass]="{ 'is-invalid': submitted && f.discription.errors }"
+                                            class="form-control form-control-sm" id="colFormLabelSm"
+                                            placeholder="Description ...">
+                                            <div *ngIf="submitted && f.discription.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.discription.errors.required">discription is required</div>
+        
+                                                </div> 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  formControlName="address" [ngClass]="{ 'is-invalid': submitted && f.address.errors }"
+                                            class="form-control form-control-sm" id="colFormLabelSm"
+                                            placeholder="Address ...">
+                                            <div *ngIf="submitted && f.address.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.address.errors.required">address is required</div>
+        
+                                                </div> 
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  class="form-control form-control-sm" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }"
+                                            id="colFormLabelSm" placeholder="City ...">
+                                            <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.city.errors.required">city is required</div>
+        
+                                                </div> 
+                                    </div>
+                                </div>
+                             
+                            </fieldset>
+                        </div>
+                        <div class="col-md-6">
+                            <fieldset>
+                                <legend>Info</legend>
+                                <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+                                    <div class="col-sm-10">
+                                        <input type="text"  class="form-control form-control-sm" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"
+                                            id="colFormLabelSm" placeholder="Phone ...">
+                                            <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                                    <div *ngIf="f.phone.errors.required">phone is required</div>
+        
+                                                </div> 
+                                    </div>
+                                </div>
+                               <!--  <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+
+
+                                    <div class="file-upload col-sm-10">
+                                        <div class="file-select">
+                                            <span style="color:red;" *ngIf="message">{{message}}</span>
+                                            <div class="file-select-button" id="fileName">Choose File</div>
+                                            <div class="file-select-name" id="noFile">No file chosen...</div>
+                                            <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                                name="image"  id="chooseFile"  >
+                  
+                                        </div>
+                                    </div>
+
+                                    <img [src]="imgURL" height="100"
+                                        style="margin-left: 50px;margin-top: 20px;width: 80% !important" *ngIf="imgURL">
+                                </div> -->
+                      <input type="file"  name="image" (change)="onFileSelect($event)"  />
+                               <!--  <div *ngIf="submitted && f.image.errors" class="invalid-feedback">
+                                    <div *ngIf="f.image.errors.required">image is required</div>
+
+                                </div>  --> 
+                            </fieldset>
+
+                        </div>
+                   
+
+                </div>
+
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" (click)="addGym()" class="btn btn-primary"><i class="feather icon-save"></i>Save</button>
+            </div>
+        
+        </div>
+
+    </form>
+
+
+
+    </div>
+</div>
+

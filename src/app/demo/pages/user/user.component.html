@@ -1,0 +1,563 @@
+
+<div class="container">
+        <button type="button" data-toggle="modal" *ngIf="loginServ.permissionMatch(['ajouter un utlisateur']) || loginServ.roleMatch(['SUPER_ADMIN'])"  data-target="#addUser"
+        class="btn btn-success float-right"><i class="feather icon-plus"></i>Add </button>
+        <div class="row">
+                <div class="col-md-3">
+                        <button [routerLink]="['/detail']" routerLinkActive="router-link-active"  title="Back" class="btn btn-rounded btn-icon btn-outline-info"><i class="feather icon-arrow-left"></i> </button>
+                    </div>
+            <div class="col-md-9">
+                    <label style="margin-left: 40%;;color: black !important">Le Nombre des Utilisateurs : {{userList.length}}</label>
+
+            </div>
+            
+        </div>
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class=" row-border hover">
+        <thead>
+            <tr>
+                <th class="text-center"> First Name</th>
+                <th class="text-center"> Last Name</th>
+                <th class="text-center"> Phone</th>
+                <th class="text-center"> Email</th>
+                <th class="text-center">OPTIONS</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let user of userList ;let i=index">
+                <td class="text-center">{{ user.firstname }}</td>
+                <td class="text-center">{{ user.lastname }}</td>
+                <td class="text-center">{{ user.phone }}</td>
+                <td class="text-center">{{ user.email }}</td>
+                <td class="text-center">
+                    <button  title="Edit" type="button"
+                        data-toggle="modal" (click)='editItemSelected(user,i)'
+                        class="btn btn-icon btn-rounded btn-warning"><i class="feather icon-edit-2"></i></button>
+    
+    
+                    <button  type="button"
+                        class="btn btn-icon btn-rounded btn-danger" title="Delete" (click)='deleteItemSelected(user,i)'><i
+                            class="feather icon-trash"></i></button>
+    
+                    <button type="button" data-toggle="modal" title="Assign Role" data-target="#assignRole"
+                        class="btn btn-icon btn-rounded btn-success" (click)='assignItemSelected(user,i)'><i
+                            class="feather icon-check-square"></i></button>
+                    
+                            <button type="button" data-toggle="modal" title="Assign Permissions" data-target="#assignPermission"
+                        class="btn btn-icon btn-rounded btn-secondary" (click)='assignPermissionItemSelected(user,i)'><i
+                            class="feather icon-crosshair"></i></button>
+                  
+                            <button *ngIf="user.statut !='active' && loginServ.roleMatch(['SUPER_ADMIN'])" data-toggle="tooltip" title="Approve" type="button"
+                        data-toggle="modal" data-target="#approveUser" class="btn btn-icon btn-rounded btn-primary"
+                        (click)='approveItemSelected(user,i)'><i class="feather icon-check"></i></button>
+                          
+                        
+                        <button *ngIf="user.statut =='active' && loginServ.roleMatch(['SUPER_ADMIN'])" data-toggle="tooltip" title="Reject" type="button"
+                        data-toggle="modal" data-target="#rejectUser" class="btn btn-icon btn-rounded btn-primary"
+                        (click)='rejectItemSelected(user,i)'><i class="feather icon-check"></i></button>
+    
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<div class="modal fade "  id="addUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+            <form [formGroup]="userForm" (ngSubmit)="addUser()">
+        
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Coach</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.firstname" formControlName="firstname" [ngClass]="{ 'is-invalid': submitted && f.firstname.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="First Name ...">
+                                        <div *ngIf="submitted && f.firstname.errors" class="invalid-feedback">
+                                                <div *ngIf="f.firstname.errors.required">firstname is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.lastname" formControlName="lastname" [ngClass]="{ 'is-invalid': submitted && f.lastname.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Last Name ...">
+                                        <div *ngIf="submitted && f.lastname.errors" class="invalid-feedback">
+                                                <div *ngIf="f.lastname.errors.required">lastname is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.cin" formControlName="cin" [ngClass]="{ 'is-invalid': submitted && f.cin.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Cin ...">
+                                        <div *ngIf="submitted && f.cin.errors" class="invalid-feedback">
+                                                <div *ngIf="f.cin.errors.required">cin is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.birthday" formControlName="birthday" [ngClass]="{ 'is-invalid': submitted && f.birthday.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Birth day ...">
+                                        <div *ngIf="submitted && f.birthday.errors" class="invalid-feedback">
+                                                <div *ngIf="f.birthday.errors.required">birthday is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.city" formControlName="city" [ngClass]="{ 'is-invalid': submitted && f.city.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="City ...">
+                                        <div *ngIf="submitted && f.city.errors" class="invalid-feedback">
+                                                <div *ngIf="f.city.errors.required">city is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <select class="form-control" formControlName="gender" [ngClass]="{ 'is-invalid': submitted && f.gender.errors }"  [(ngModel)]="user.gender">
+                                        <option value="Male">Male</option>
+                                        <option value="Female">Female</option>
+                                    </select>
+                                    <div *ngIf="submitted && f.gender.errors" class="invalid-feedback">
+                                            <div *ngIf="f.gender.errors.required">gender is required</div>
+
+                                        </div> 
+                                    </div>
+                            </div>
+                           
+                               
+                            
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.adresse" formControlName="adresse" [ngClass]="{ 'is-invalid': submitted && f.adresse.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Adress ...">
+                                        <div *ngIf="submitted && f.adresse.errors" class="invalid-feedback">
+                                                <div *ngIf="f.adresse.errors.required">adresse is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="user.phone" formControlName="phone" [ngClass]="{ 'is-invalid': submitted && f.phone.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Phone Number ...">
+                                        <div *ngIf="submitted && f.phone.errors" class="invalid-feedback">
+                                                <div *ngIf="f.phone.errors.required">phone is required</div>
+                                                <div *ngIf="f.phone.errors.pattern">phone must be a valid email address</div>
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="email" [(ngModel)]="user.email" formControlName="email" [ngClass]="{ 'is-invalid': submitted && f.email.errors }"  class="form-control form-control-sm"
+                                        id="colFormLabelSm" placeholder="Email ...">
+                                        <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+                                                <div *ngIf="f.email.errors.required">email is required</div>
+                                                <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="password" [(ngModel)]="user.password" formControlName="password" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" 
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Password ...">
+                                        <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+                                                <div *ngIf="f.password.errors.required">password is required</div>
+    
+                                            </div> 
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+
+
+                                    <div class="file-upload col-sm-10">
+                                        <div class="file-select">
+                                            <span style="color:red;" *ngIf="message">{{message}}</span>
+                                            <div class="file-select-button" id="fileName">Choose File</div>
+                                            <div class="file-select-name" id="noFile">No file chosen...</div>
+                                            <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                                name="chooseFile" id="chooseFile">
+                                        </div>
+                                    </div>
+
+                                    <img [src]="imgURL" height="100"
+                                        style="margin-left: 50px;margin-top: 20px;width: 80% !important" *ngIf="imgURL">
+                                </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="submit" class="btn btn-primary" ><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </form>
+
+    </div>
+</div>
+
+<div class="modal fade" id="assignRole" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Affecter Role To <label
+                        style="font-size: 30px ; color:  blue"> {{userSelected.firstname }} {{userSelected.lastname }}
+                        ?</label></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <select class="form-control" [(ngModel)]="roleID">
+                    <option *ngFor="let item of roleList" [value]="item.id" [selected]="item.id">{{item.name}}</option>
+                </select>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success" (click)='assignRoleToUser()'><i
+                        class="feather icon-check-square"></i>Affecter</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                        class="feather icon-x"></i> Non</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+<div class="modal fade" id="deleteUser" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title custom_align" id="Heading">Supprimer cette User</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="alert alert-danger text-center"><span class="glyphicon glyphicon-warning-sign"></span>
+                    Êtes-vous sûr de vouloir supprimer cette User ?
+
+                </div>
+
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-danger" (click)='deleteUser()'><span
+                        class="glyphicon glyphicon-ok-sign"></span>Oui</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><span
+                        class="glyphicon glyphicon-remove"></span> Non</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade " id="updateUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Update Coach</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="userSelected.firstname"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="First Name ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="userSelected.lastname"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Last Name ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="userSelected.cin"
+                                        class="form-control form-control-sm" id="colFormLabelSm" placeholder="Cin ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="userSelected.birthday"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Birth day ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="text" [(ngModel)]="userSelected.city"
+                                        class="form-control form-control-sm" id="colFormLabelSm" placeholder="City ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control" [(ngModel)]="userSelected.gender">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                        </select>
+                                        </div>
+                                </div>
+
+                        </fieldset>
+                    </div>
+                    <div class="col-md-6">
+                        <fieldset>
+                            <legend>Info</legend>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="email" [(ngModel)]="userSelected.adresse"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Adress ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="email" [(ngModel)]="userSelected.phone"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Phone Number ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="email" [(ngModel)]="userSelected.email"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Email ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label for="colFormLabelSm" class="col-sm-1 col-form-label col-form-label-sm">
+                                        </label>
+                                <div class="col-sm-10">
+                                    <input type="password" [(ngModel)]="userSelected.password"
+                                        class="form-control form-control-sm" id="colFormLabelSm"
+                                        placeholder="Password ...">
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                    <label class="col-sm-1"></label>
+
+
+                                    <div class="file-upload col-sm-10">
+                                        <div class="file-select">
+                                            <span style="color:red;" *ngIf="message">{{message}}</span>
+                                            <div class="file-select-button" id="fileName">Choose File</div>
+                                            <div class="file-select-name" id="noFile">No file chosen...</div>
+                                            <input #file type="file" accept='image/*' (change)="preview(file.files)"
+                                                name="chooseFile" id="chooseFile">
+                                        </div>
+                                    </div>
+
+                                    <img [src]="imgURL" height="100"
+                                        style="margin-left: 50px;margin-top: 20px;width: 80% !important" *ngIf="imgURL">
+                                </div>
+                        </fieldset>
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i
+                        class="feather icon-x"></i>Close</button>
+                <button type="button" class="btn btn-primary" (click)="updateUser()"><i
+                        class="feather icon-save"></i>Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="modal fade" id="assignPermission" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">assign Permission To User </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <label for="" style="text-align: center !important">are you sure you want to assign Permission To</label>   
+                <label class="text-center" style="font-size: 30px ; color:  blue">
+                    {{userSelected.firstname }} {{userSelected.lastname }}
+                    ?
+                </label> <br>
+              
+
+                    <mat-form-field  style="width: 500px !important;margin-left: 20% !important;">
+                            <mat-label>Select Permissions ...</mat-label>
+                            <mat-select [(ngModel)]="permissions" multiple>
+                                    <mat-option *ngFor="let p of permissionList;let i=index" [value]="p" >
+                                            {{p.name}}
+                                        </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                          
+                
+               
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success" (click)='assignPermissionToUser()'><i
+                        class="feather icon-crosshair"></i>OK</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                        class="feather icon-x"></i> Non</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="approveUser" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Approve User </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                are you sure you want to approve 
+                <label class="text-center" style="font-size: 30px ; color:  blue">
+                    {{userSelected.firstname }} {{userSelected.lastname }}
+                    ?
+                </label>
+            </div>
+            <div class="modal-footer ">
+                <button type="button" class="btn btn-success" (click)='approveUser()'><i
+                        class="feather icon-check"></i>Approve</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                        class="feather icon-x"></i> Non</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+
+
+
+
+
+
+<div class="modal fade" id="rejectUser" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Reject User </h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    are you sure you want to reject 
+                    <label class="text-center" style="font-size: 30px ; color:  blue">
+                        {{userSelected.firstname }} {{userSelected.lastname }}
+                        ?
+                    </label>
+                </div>
+                <div class="modal-footer ">
+                    <button type="button" class="btn btn-success" (click)='rejectUser()'><i
+                            class="feather icon-check"></i>Reject</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i
+                            class="feather icon-x"></i> Non</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>

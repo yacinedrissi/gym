@@ -1,0 +1,17 @@
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+
+    background: red !important
+}
+.example-additional-selection {
+    opacity: 0.75;
+    font-size: 0.75em;
+  }
+
+  ::ng-deep .cdk-overlay-container{
+    z-index: 1200 !important;
+}
+  
+::ng-deep .mat-select {
+    color: black;
+    z-index: 1200 !important;
+}
